@@ -1,5 +1,7 @@
 from tkinter import *
 from tkcalendar import Calendar, DateEntry
+import sqlite3
+from random import randint
 
 class SingUpPage :
     def __init__(self,root): 
@@ -7,14 +9,51 @@ class SingUpPage :
         self.root.title("Sign Up")
         self.root.geometry ("610x600+350+10")
 
+        db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+        cr = db.cursor()
+        db.commit()
+
+        def opendb():
+            db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+            cr = db.cursor()
+            cr.execute("create table if not exists accounts (cin text primary key,firstname text , lastname text ,birthday date , adress text, password text , amount integer)")
+            db.commit()    
+        def closedb():
+            db.close()
         #methodes
         def signup ():
+            opendb()
             if var.get() == 1 :
+                global cin
+                global password
                 firstname = firstnamea.get()
                 lastname = lastnamea.get()
                 cin = cina.get()
                 birthday = birthdaya.get_date()
                 adress = adressa.get()
+                exite = cr.execute(f"select * from accounts where cin == '{cin}' ")
+                if not exite.fetchone():
+                    passw = randint(1,9999)
+                    password = str(passw).zfill(4)
+                    print("im here")
+                    cr.execute(f"insert into accounts (cin,firstname , lastname ,birthday, adress, password, amount) values ('{cin}','{firstname}','{lastname}','{birthday}','{adress}','{password}',0)")
+                    db.commit()
+                    db.close()
+            
+                    framnew = Frame(self.root , bd=4 , relief=RIDGE)
+                    framnew.place (x=50 , y= 10 , width=517 , height=80 )
+
+                    labelnew = Label(framnew, text="Your N° is " +cin +" and your password is " + password, font=("times new roman",17,"bold") ,fg="red" , bd=4 , relief=RIDGE)
+                    labelnew.place(x = 0 , y = 0 , width=517,height=80)
+
+                else :
+                    print("this user already in")
+                    db.close()
+                    framnew = Frame(self.root , bd=4 , relief=RIDGE)
+                    framnew.place (x=50 , y= 10 , width=517 , height=80 )
+
+                    labelnew = Label(framnew, text="This account is already existe", font=("times new roman",20,"bold") ,fg="red" , bd=4 , relief=RIDGE)
+                    labelnew.place(x = 0 , y = 0 , width=517,height=80)
                 print("Done!" , birthday)
 
                 firstnamea.delete(0, END)
@@ -28,7 +67,7 @@ class SingUpPage :
 
         #mainframe
         mainframesign = Frame(self.root , bd=4 , relief=RIDGE)
-        mainframesign.place (x=50 , y= 50 , width=517 , height=500)
+        mainframesign.place (x=50 , y= 80 , width=517 , height=500)
 
         #labels
         lblname = Label(mainframesign , text="First Name",font=("times new roman",20,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
@@ -63,17 +102,20 @@ class SingUpPage :
 
         var = IntVar() 
 
-        rdbtn = Radiobutton (mainframesign ,variable= var , value=1, text="I agree to the user terms" , font=("times new roman",20,"bold") ,fg="black" , bd=4 , relief=RIDGE)
+        rdbtn = Radiobutton (mainframesign ,variable= var , value=1, text="I agree to the user terms" , font=("times new roman",20,"bold") ,fg="black" , relief=RIDGE)
         rdbtn.place (x = 50 ,  y = 350 , height = 45 , width=400)
 
         btnsignup = Button(mainframesign, command=signup,text="Sign Up" , font=("times new roman",20,"bold") , bg="black",fg="gold" , bd=4 , relief=RIDGE)
         btnsignup.place(x = 150 , y = 420 , width=200)
 
 
-
+    def newuserdetail (self,cin,password) :
+        self.new_windows = Toplevel(self.root)
+        self.app = NewUser(self.new_windows)
 
 
 if __name__ == "__main__" :
     root=Tk()
     obj=SingUpPage(root)
     root.mainloop()
+

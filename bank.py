@@ -1,7 +1,7 @@
 from tkinter import *
 from PIL import Image,ImageTk
 from signup import SingUpPage
-
+import sqlite3
 class BankManagementSys :
     
 
@@ -10,6 +10,9 @@ class BankManagementSys :
         self.root.title("Bank Management System")
         self.root.geometry ("1000x700+100+0")
 
+        def opendb():
+            db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+            cr = db.cursor()
         #methodes 
         def show():
             usernm = username.get()
