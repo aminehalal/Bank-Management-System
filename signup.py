@@ -109,10 +109,6 @@ class SingUpPage :
         btnsignup.place(x = 150 , y = 420 , width=200)
 
 
-    def newuserdetail (self,cin,password) :
-        self.new_windows = Toplevel(self.root)
-        self.app = NewUser(self.new_windows)
-
 
 if __name__ == "__main__" :
     root=Tk()
