@@ -29,14 +29,28 @@ class BankManagementSys :
             
             def withdrawalnow():
                 db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
-                cr.execute(f"update acoounts set amount = amount - {amount[0]} where cin =='{cin}'")
+                balancen = balance.get()
+                cr = db.cursor()
+                cr.execute(f"update accounts set amount =amount - {balancen} where cin =='{cin}'")
                 db.commit()
+                cr.execute(f"select amount from accounts where cin =='{cin}'")
+                amount=cr.fetchone()
+
+                amountnow = Label(mainframe , text="Your current balance is : " + str(amount[0]) + " DH" ,font=("times new roman",25,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
+                amountnow.place(x=0,y=100,width=600,height=60)
                         
             def depositnow():
                 db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
-                cr.execute(f"update accounts set amount = amount + {amount[0]} where cin == '{cin}' ")
+                balancen = balance.get()
+                cr = db.cursor()
+                cr.execute(f"update accounts set amount =amount + {balancen} where cin == '{cin}' ")
                 db.commit()
+                
+                cr.execute(f"select amount from accounts where cin =='{cin}'")
+                amount=cr.fetchone()
 
+                amountnow = Label(mainframe , text="Your current balance is : " + str(amount[0]) + " DH" ,font=("times new roman",25,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
+                amountnow.place(x=0,y=100,width=600,height=60)
             cin = username.get()
             passwrd = password.get()
             db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
@@ -44,7 +58,7 @@ class BankManagementSys :
             exite = cr.execute(f"select * from accounts where cin == '{cin}' and password =='{passwrd}'")
             stillon = True
             if exite.fetchone() :
-                while stillon == True:
+               # while stillon == True:
                     cr.execute(f"select amount from accounts where cin =='{cin}'")
                     amount=cr.fetchone()
                     cr.execute(f"select firstname from accounts where cin =='{cin}'")
@@ -58,19 +72,19 @@ class BankManagementSys :
                     welcome = Label(mainframe , text="Welcome " + fullname ,font=("times new roman",35,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
                     welcome.place(x=0,y=20,width=600,height=60)
 
-                    amountnow = Label(mainframe , text="Your current balance is : " + str(amount[0]) + " DH" ,font=("times new roman",32,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
+                    amountnow = Label(mainframe , text="Your current balance is : " + str(amount[0]) + " DH" ,font=("times new roman",25,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
                     amountnow.place(x=0,y=100,width=600,height=60)
 
                     balance = Entry(mainframe,font=("arial",20,"bold"),width=60)
-                    balance.place(x=200 , y=240 , width=200, height=50)
+                    balance.place(x=200 , y=220 , width=200, height=50)
 
                     btnwd = Button(mainframe ,text="Withdrawal" , command=withdrawalnow,font=("times new roman",30,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE )
-                    btnwd.place (x= 50 , y= 300 , width=250 , height=50)
+                    btnwd.place (x= 50 , y= 315 , width=250 , height=50)
                     
                     btndep = Button(mainframe ,text="Deposit" , command=depositnow,font=("times new roman",30,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE )
-                    btndep.place (x= 350 , y= 300 , width=250 , height=50)
+                    btndep.place (x= 350 , y= 315 , width=250 , height=50)
 
-
+                    balancen = balance.get()
                     #methodes
             else :
                 self.errorlogindetail()

@@ -24,8 +24,6 @@ class SingUpPage :
         def signup ():
             opendb()
             if var.get() == 1 :
-                global cin
-                global password
                 firstname = firstnamea.get()
                 lastname = lastnamea.get()
                 cin = cina.get()
