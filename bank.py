@@ -1,5 +1,6 @@
 from tkinter import *
 from PIL import Image,ImageTk
+from signup import SingUpPage
 
 class BankManagementSys :
     
@@ -7,7 +8,7 @@ class BankManagementSys :
     def __init__(self,root) :
         self.root = root
         self.root.title("Bank Management System")
-        self.root.geometry ("1000x800")
+        self.root.geometry ("1000x700+100+0")
 
         #methodes 
         def show():
@@ -59,10 +60,13 @@ class BankManagementSys :
         login = Button(mainframe ,text="Login" , command=show,font=("times new roman",18,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE )
         login.place (x= 300 , y= 380 , width=150 , height=50)
         
-        signin = Button(mainframe ,text="Sign In" ,font=("times new roman",18,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE )
-        signin.place (x= 100 , y= 380 , width=150 , height=50)
+        signup = Button(mainframe , command=self.signupdetail,text="Sign Up" ,font=("times new roman",18,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE )
+        signup.place (x= 100 , y= 380 , width=150 , height=50)
 
-    
+    def signupdetail (self) :
+        self.new_windows = Toplevel(self.root)
+        self.app = SingUpPage(self.new_windows)
+
 if __name__ == "__main__" :
     root=Tk()
     obj=BankManagementSys(root)
