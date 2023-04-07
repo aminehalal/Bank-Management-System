@@ -14,6 +14,8 @@ class BankManagementSys :
 
         db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
         cr = db.cursor()
+
+
         def opendb():
             db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
             cr = db.cursor()
@@ -33,6 +35,10 @@ class BankManagementSys :
                 cr = db.cursor()
                 cr.execute(f"update accounts set amount =amount - {balancen} where cin =='{cin}'")
                 db.commit()
+                db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+                cr = db.cursor()
+                cr.execute(f"insert into operations (cin,type,amount,datetime) values('{cin}','Withdrawal','{balancen}','{datetime.datetime.now()}')")
+                db.commit()
                 cr.execute(f"select amount from accounts where cin =='{cin}'")
                 amount=cr.fetchone()
 
@@ -44,6 +50,12 @@ class BankManagementSys :
                 balancen = balance.get()
                 cr = db.cursor()
                 cr.execute(f"update accounts set amount =amount + {balancen} where cin == '{cin}' ")
+                
+                db.commit()
+                db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+                cr = db.cursor()
+                cr.execute(f"insert into operations (cin,type,amount,datetime) values('{cin}','Deposit','{balancen}','{datetime.datetime.now()}')")
+                
                 db.commit()
                 
                 cr.execute(f"select amount from accounts where cin =='{cin}'")
@@ -149,10 +161,10 @@ class BankManagementSys :
         password.place(x=300 , y=300 , width=200, height=50)
 
         login = Button(mainframe ,text="Login" , command=loginnow,font=("times new roman",18,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE )
-        login.place (x= 450 , y= 380 , width=150 , height=50)
+        login.place (x= 300 , y= 380 , width=200 , height=50)
         
-        signup = Button(mainframe , command=self.signupdetail,text="Sign Up" ,font=("times new roman",18,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE )
-        signup.place (x= 200 , y= 380 , width=150 , height=50)
+        #signup = Button(mainframe , command=self.signupdetail,text="Sign Up" ,font=("times new roman",18,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE )
+        #signup.place (x= 200 , y= 380 , width=150 , height=50)
 
     def signupdetail (self) :
         self.new_windows = Toplevel(self.root)

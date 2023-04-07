@@ -17,6 +17,7 @@ class SingUpPage :
             db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
             cr = db.cursor()
             cr.execute("create table if not exists accounts (cin text primary key,firstname text , lastname text ,birthday date , adress text, password text , amount integer)")
+            cr.execute("create table if not exists operations (id integer primary key autoincrement, cin text , type text , amount integer ,datetime text,foreign key (cin) references accounts(cin))")
             db.commit()    
         def closedb():
             db.close()
