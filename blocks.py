@@ -19,7 +19,7 @@ class ErrorLogin :
         mainframelogeror = Frame(self.root , relief=RIDGE)
         mainframelogeror.place (x=50 , y= 300 , height=400,width=400)
 
-        errortext = Label(mainframelogeror, text="Password is worng" , font=("times new roman",20,"bold") ,fg="red" , bd=4 , relief=RIDGE)
+        errortext = Label(mainframelogeror, text="The account number or \npassword is incorrect" , font=("times new roman",20,"bold") ,fg="red" , bd=4 , relief=RIDGE)
         errortext.place(x = 0 , y = 0 , width=400)
 
 

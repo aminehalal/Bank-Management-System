@@ -53,7 +53,7 @@ class SingUpPage :
 
                     labelnew = Label(framnew, text="This account is already existe", font=("times new roman",20,"bold") ,fg="red" , bd=4 , relief=RIDGE)
                     labelnew.place(x = 0 , y = 0 , width=517,height=80)
-                print("Done!" , birthday)
+               
 
                 firstnamea.delete(0, END)
                 lastnamea.delete(0, END)

@@ -37,7 +37,7 @@ class BankManagementSys :
                 db.commit()
                 db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
                 cr = db.cursor()
-                cr.execute(f"insert into operations (cin,type,amount,datetime) values('{cin}','Withdrawal','{balancen}','{datetime.datetime.now()}')")
+                cr.execute(f"insert into operations (cin,type,amount,datetime) values('{cin}','Withdrawal','{balancen}','{str(datetime.datetime.now())[:19]}')")
                 db.commit()
                 cr.execute(f"select amount from accounts where cin =='{cin}'")
                 amount=cr.fetchone()
@@ -54,7 +54,7 @@ class BankManagementSys :
                 db.commit()
                 db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
                 cr = db.cursor()
-                cr.execute(f"insert into operations (cin,type,amount,datetime) values('{cin}','Deposit','{balancen}','{datetime.datetime.now()}')")
+                cr.execute(f"insert into operations (cin,type,amount,datetime) values('{cin}','Deposit','{balancen}','{str(datetime.datetime.now())[:19]}')")
                 
                 db.commit()
                 
