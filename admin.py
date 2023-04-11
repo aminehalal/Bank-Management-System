@@ -71,12 +71,12 @@ class BankManagementAdmin :
                 cr.execute(f"select * from accounts where cin =='{checkinguser}'")
 
                 if cr.fetchone() :
-                    cr.execute(f"select type , datetime from operations where cin =='{checkinguser}' order by datetime limit 5")
+                    cr.execute(f"select type ,amount , datetime from operations where cin =='{checkinguser}' order by datetime desc limit 5")
                     detail = cr.fetchall()
 
                     db.close()
 
-                    checking = Label(mainframec , text="Operations Carried out by "+ checkinguser+ "\n\n"+ detail[0][0] +" in " + detail [0][1]+"\n"+ detail[1][0] +" in " + detail [1][1] + "\n" + detail[2][0] +" in " + detail [2][1]+"\n" + detail[3][0] +" in " + detail [3][1]+"\n" + detail[4][0] +" in " + detail [4][1] ,font=("times new roman",27,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
+                    checking = Label(mainframec , text="Operations Carried out by "+ checkinguser+ "\n\n"+ detail[0][0] +" of "+str(detail[0][1]) +" DH on " + detail [0][2]+"\n"+ detail[1][0] +" of "+str(detail[1][1]) +" DH on " + detail [1][2]+ "\n" +  detail[2][0] +" of "+str(detail[2][1]) +" DH on " + detail [2][2]+"\n" +  detail[3][0] +" of "+str(detail[3][1]) +" DH on " + detail [3][2]+"\n" +  detail[4][0] +" of "+str(detail[4][1]) +" DH on " + detail [4][2] ,font=("times new roman",23,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
                     checking.place(x=50,y=40,width=700,height=300)
 
                 else :

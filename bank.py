@@ -3,6 +3,8 @@ from PIL import Image,ImageTk
 from signup import SingUpPage
 from blocks import ErrorLogin
 import datetime
+import smtplib
+from email.message import EmailMessage
 import sqlite3
 
 class BankManagementSys :
@@ -44,7 +46,24 @@ class BankManagementSys :
 
                 amountnow = Label(mainframe , text="Your current balance is : " + str(amount[0]) + " DH" ,font=("times new roman",30,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
                 amountnow.place(x=0,y=100,width=800,height=60)
-                        
+
+                cr.execute(f"select email from accounts where cin=='{cin}'")
+
+                recipient_email = cr.fetchone()
+                msg = EmailMessage()
+                sender_email = "prof.aminehalal@gmail.com"
+                msg['Subject'] = 'Withdrawal in your bank account'
+                message ="Hello " +fullname +"\nWe want to inform you that you withdrew the amount of "+balancen+" in " +str(datetime.datetime.now())[:19]
+                msg.set_content(message)
+
+                msg['From'] = sender_email
+                msg['To'] = recipient_email
+                myemailpass = "zygvddvnhattbkjk"
+                with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                    server.starttls()
+                    server.login(sender_email, myemailpass)
+                    server.send_message(msg)
+                
             def depositnow():
                 db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
                 balancen = balance.get()
