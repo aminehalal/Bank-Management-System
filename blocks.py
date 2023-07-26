@@ -1,5 +1,8 @@
 from tkinter import *
 from PIL import Image, ImageTk
+import os
+
+current_path = os.path.dirname(os.path.abspath(__file__))
 
 class ErrorLogin :
         
@@ -9,7 +12,7 @@ class ErrorLogin :
         self.root.geometry ("500x400+400+20")
 
         #error picture
-        imghead = Image.open(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\images\error.jpg")
+        imghead = Image.open(os.path.join(current_path , r'images\error.jpg'))
         imghead = imghead.resize((400,260),Image.ANTIALIAS)
         self.photoimghead = ImageTk.PhotoImage(imghead)
 
