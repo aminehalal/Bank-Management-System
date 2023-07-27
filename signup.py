@@ -2,6 +2,9 @@ from tkinter import *
 from tkcalendar import Calendar, DateEntry
 import sqlite3
 from random import randint
+import os
+
+current_path = os.path.dirname(os.path.abspath(__file__))
 
 class SingUpPage :
     def __init__(self,root): 
@@ -9,12 +12,12 @@ class SingUpPage :
         self.root.title("Sign Up")
         self.root.geometry ("610x600+350+10")
 
-        db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+        db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
         cr = db.cursor()
         db.commit()
 
         def opendb():
-            db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+            db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
             cr = db.cursor()
             cr.execute("create table if not exists accounts (cin text primary key,firstname text , lastname text ,birthday date ,email text , adress text, password text , amount integer)")
             cr.execute("create table if not exists operations (id integer primary key autoincrement, cin text , type text , amount integer ,datetime text,foreign key (cin) references accounts(cin))")

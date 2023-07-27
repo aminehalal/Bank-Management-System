@@ -5,6 +5,9 @@ from blocks import ErrorLogin
 from bank import BankManagementSys
 import datetime
 import sqlite3
+import os
+
+current_path = os.path.dirname(os.path.abspath(__file__))
 
 class BankManagementAdmin :
 
@@ -21,7 +24,7 @@ class BankManagementAdmin :
         def blockuser() :
 
             def block():
-                db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+                db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
                 cr = db.cursor()
                 blockinguser = blockusername.get()
 
@@ -61,7 +64,7 @@ class BankManagementAdmin :
 
             #typing
             def check ():
-                db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+                db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
                 cr = db.cursor()
                 checkinguser = checkusername.get()
 
@@ -71,12 +74,22 @@ class BankManagementAdmin :
                 cr.execute(f"select * from accounts where cin =='{checkinguser}'")
 
                 if cr.fetchone() :
-                    cr.execute(f"select type ,amount , datetime from operations where cin =='{checkinguser}' order by datetime desc limit 5")
-                    detail = cr.fetchall()
+                    cr.execute(f"select type ,amount , datetime from operations where cin =='{checkinguser}' order by datetime desc")
+                    detail = cr.fetchone()
+                    print(detail)
 
+                    limit = 1
+                    text =""
+                    
+                    while limit < 5 and detail :
+                        text_boucle = detail[0] +" of "+str(detail[1]) +" DH on " + detail[2]+"\n "
+                        text += text_boucle
+                        detail =cr.fetchone()
+                        limit += 1
                     db.close()
+                    checking = Label(mainframec , text="Operations Carried out by "+ checkinguser+ "\n\n" + text  ,font=("times new roman",23,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
 
-                    checking = Label(mainframec , text="Operations Carried out by "+ checkinguser+ "\n\n"+ detail[0][0] +" of "+str(detail[0][1]) +" DH on " + detail [0][2]+"\n"+ detail[1][0] +" of "+str(detail[1][1]) +" DH on " + detail [1][2]+ "\n" +  detail[2][0] +" of "+str(detail[2][1]) +" DH on " + detail [2][2]+"\n" +  detail[3][0] +" of "+str(detail[3][1]) +" DH on " + detail [3][2]+"\n" +  detail[4][0] +" of "+str(detail[4][1]) +" DH on " + detail [4][2] ,font=("times new roman",23,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
+                    #checking = Label(mainframec , text="Operations Carried out by "+ checkinguser+ "\n\n"+ detail[0][0] +" of "+str(detail[0][1]) +" DH on " + detail [0][2]+"\n"+ detail[1][0] +" of "+str(detail[1][1]) +" DH on " + detail [1][2]+ "\n" +  detail[2][0] +" of "+str(detail[2][1]) +" DH on " + detail [2][2]+"\n" +  detail[3][0] +" of "+str(detail[3][1]) +" DH on " + detail [3][2]+"\n" +  detail[4][0] +" of "+str(detail[4][1]) +" DH on " + detail [4][2] ,font=("times new roman",23,"bold"),bg="black",fg="gold",bd=4,relief=RIDGE)
                     checking.place(x=50,y=40,width=700,height=300)
 
                 else :
@@ -100,7 +113,7 @@ class BankManagementAdmin :
 
 
         # head picture
-        imghead = Image.open(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\images\head.jpg")
+        imghead = Image.open(os.path.join(current_path , r'images\head.jpg'))
         imghead = imghead.resize((880,120),Image.ANTIALIAS)
         self.photoimghead = ImageTk.PhotoImage(imghead)
 
@@ -108,7 +121,7 @@ class BankManagementAdmin :
         lblimghead.place(x=120,y=0,width=880,height=120)
 
         #logo
-        imglogo = Image.open(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\images\logo.png")
+        imglogo = Image.open(os.path.join(current_path , r'images\logo.png'))
         imglogo = imglogo.resize((110,110),Image.ANTIALIAS)
         self.photoimglogo = ImageTk.PhotoImage(imglogo)
 

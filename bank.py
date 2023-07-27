@@ -6,6 +6,9 @@ import datetime
 import smtplib
 from email.message import EmailMessage
 import sqlite3
+import os
+
+current_path = os.path.dirname(os.path.abspath(__file__))
 
 class BankManagementSys :
 
@@ -14,12 +17,12 @@ class BankManagementSys :
         self.root.title("Bank Management System")
         self.root.geometry ("1000x700+100+0")
 
-        db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+        db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
         cr = db.cursor()
 
 
         def opendb():
-            db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+            db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
             cr = db.cursor()
         #methodes 
 
@@ -28,16 +31,16 @@ class BankManagementSys :
         def loginnow():
             
             def opendb():
-                db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+                db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
                 cr = db.cursor()
             
             def withdrawalnow():
-                db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+                db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
                 balancen = balance.get()
                 cr = db.cursor()
                 cr.execute(f"update accounts set amount =amount - {balancen} where cin =='{cin}'")
                 db.commit()
-                db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+                db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
                 cr = db.cursor()
                 cr.execute(f"insert into operations (cin,type,amount,datetime) values('{cin}','Withdrawal','{balancen}','{str(datetime.datetime.now())[:19]}')")
                 db.commit()
@@ -51,27 +54,27 @@ class BankManagementSys :
 
                 recipient_email = cr.fetchone()
                 msg = EmailMessage()
-                sender_email = "prof.aminehalal@gmail.com"
-                msg['Subject'] = 'Withdrawal in your bank account'
+                sender_email = "youradress@domain.com"  #You Email Adress
+                msg['Subject'] = 'Withdrawal in your bank account' #The Subject
                 message ="Hello " +fullname +"\nWe want to inform you that you withdrew the amount of "+balancen+" in " +str(datetime.datetime.now())[:19]
                 msg.set_content(message)
 
                 msg['From'] = sender_email
                 msg['To'] = recipient_email
-                myemailpass = "zygvddvnhattbkjk"
+                myemailpass = "youtoken" #The Token Pass
                 with smtplib.SMTP('smtp.gmail.com', 587) as server:
                     server.starttls()
                     server.login(sender_email, myemailpass)
                     server.send_message(msg)
                 
             def depositnow():
-                db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+                db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
                 balancen = balance.get()
                 cr = db.cursor()
                 cr.execute(f"update accounts set amount =amount + {balancen} where cin == '{cin}' ")
                 
                 db.commit()
-                db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+                db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
                 cr = db.cursor()
                 cr.execute(f"insert into operations (cin,type,amount,datetime) values('{cin}','Deposit','{balancen}','{str(datetime.datetime.now())[:19]}')")
                 
@@ -88,7 +91,7 @@ class BankManagementSys :
 
             cin = username.get()
             passwrd = password.get()
-            db = sqlite3.connect(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\bank.db")
+            db = sqlite3.connect(os.path.join(current_path , 'bank.db'))
             cr = db.cursor()
             exite = cr.execute(f"select * from accounts where cin == '{cin}' and password =='{passwrd}'")
             stillon = True
@@ -131,7 +134,7 @@ class BankManagementSys :
 
 
         # head picture
-        imghead = Image.open(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\images\head.jpg")
+        imghead = Image.open(os.path.join(current_path , r'images\head.jpg'))
         imghead = imghead.resize((880,120),Image.ANTIALIAS)
         self.photoimghead = ImageTk.PhotoImage(imghead)
 
@@ -139,7 +142,7 @@ class BankManagementSys :
         lblimghead.place(x=120,y=0,width=880,height=120)
 
         #logo
-        imglogo = Image.open(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\images\logo.png")
+        imglogo = Image.open(os.path.join(current_path , r'images\logo.png'))
         imglogo = imglogo.resize((110,110),Image.ANTIALIAS)
         self.photoimglogo = ImageTk.PhotoImage(imglogo)
 
@@ -156,7 +159,7 @@ class BankManagementSys :
         
         #mainbankoic
 
-        imgmain = Image.open(r"C:\Users\lenevo\Desktop\Langage\Python Projects\Project\Gestion de banque\images\mainbank.jpg")
+        imgmain = Image.open(os.path.join(current_path , r'images\mainbank.jpg'))
         imgmain = imgmain.resize((800,500),Image.ANTIALIAS)
         self.photoimgmain = ImageTk.PhotoImage(imgmain)
 
